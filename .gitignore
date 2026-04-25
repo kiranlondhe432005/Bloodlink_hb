@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment files (VERY IMPORTANT)
+.env
+.env.*
+**/.env
+
+# Build files
+dist
+dist-ssr
+
+# Logs
+logs
+*.log
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store

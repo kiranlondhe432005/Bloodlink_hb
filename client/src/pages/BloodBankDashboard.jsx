@@ -193,15 +193,31 @@ const BloodBankDashboard = () => {
                         <p className="text-[10px] text-light/30 font-bold flex items-center uppercase tracking-widest"><MapPin size={12} className="mr-2 text-primary" /> Location Locked</p>
                       </div>
 
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        disabled={!user?.isVerified}
-                        onClick={() => handleStockAvailable(req._id)}
-                        className={`w-full py-4 rounded-2xl text-[10px] font-black tracking-[0.2em] transition-all shadow-xl ${!user?.isVerified ? 'bg-white/10 text-light/20 cursor-not-allowed' : 'bg-primary hover:bg-red-600 text-white shadow-primary/20'}`}
-                      >
-                        {!user?.isVerified ? 'VERIFICATION PENDING' : 'MARK STOCK AVAILABLE'}
-                      </motion.button>
+                      {(() => {
+                        const hasResponded = req.responses?.some(r => 
+                          r.bloodBank === user._id || (r.bloodBank && r.bloodBank._id === user._id) || (r.bloodBank && r.bloodBank.toString() === user._id.toString())
+                        );
+
+                        if (hasResponded) {
+                          return (
+                            <div className="w-full py-4 rounded-2xl text-[10px] font-black tracking-[0.2em] transition-all shadow-xl bg-green-500/10 text-green-400 border border-green-500/20 text-center flex items-center justify-center">
+                              <CheckCircle size={14} className="mr-2" /> WAITING FOR HOSPITAL
+                            </div>
+                          );
+                        }
+
+                        return (
+                          <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            disabled={!user?.isVerified}
+                            onClick={() => handleStockAvailable(req._id)}
+                            className={`w-full py-4 rounded-2xl text-[10px] font-black tracking-[0.2em] transition-all shadow-xl ${!user?.isVerified ? 'bg-white/10 text-light/20 cursor-not-allowed' : 'bg-primary hover:bg-red-600 text-white shadow-primary/20'}`}
+                          >
+                            {!user?.isVerified ? 'VERIFICATION PENDING' : 'MARK STOCK AVAILABLE'}
+                          </motion.button>
+                        );
+                      })()}
                     </motion.div>
                   );
                 })}
