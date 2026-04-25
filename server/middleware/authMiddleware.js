@@ -43,4 +43,11 @@ const adminOnly = (req, res, next) => {
   return res.status(403).json({ message: 'Not authorized as admin' });
 };
 
-module.exports = { protect, adminOnly };
+const verifiedOnly = (req, res, next) => {
+  if (req.user && req.user.isVerified) {
+    return next();
+  }
+  return res.status(403).json({ message: 'Account not verified by Admin yet. Action restricted.' });
+};
+
+module.exports = { protect, adminOnly, verifiedOnly };

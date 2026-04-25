@@ -108,6 +108,12 @@ const HospitalDashboard = () => {
       exit={{ opacity: 0, y: -20 }}
       className="max-w-7xl mx-auto space-y-8"
     >
+      {!user?.isVerified && (
+        <div className="bg-orange-500/10 border border-orange-500/30 p-4 rounded-xl text-center mb-6">
+          <h3 className="text-orange-400 font-bold mb-1 flex items-center justify-center"><AlertCircle size={18} className="mr-2" /> Pending Verification</h3>
+          <p className="text-sm text-light/70">Your account is pending verification by an Admin. Emergency broadcasts are restricted.</p>
+        </div>
+      )}
       <header className="glass-panel p-8 rounded-3xl shadow-2xl border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary opacity-50" />
         <div className="relative z-10 text-center md:text-left">
@@ -161,10 +167,10 @@ const HospitalDashboard = () => {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                disabled={isRequesting}
-                className={`w-full py-4 rounded-2xl text-xs font-black text-white shadow-xl transition-all ${isRequesting ? 'bg-white/10 text-light/20 cursor-not-allowed' : 'bg-primary hover:bg-red-600 shadow-primary/20'}`}
+                disabled={isRequesting || !user?.isVerified}
+                className={`w-full py-4 rounded-2xl text-xs font-black text-white shadow-xl transition-all ${(isRequesting || !user?.isVerified) ? 'bg-white/10 text-light/20 cursor-not-allowed' : 'bg-primary hover:bg-red-600 shadow-primary/20'}`}
               >
-                {isRequesting ? 'SEARCHING NETWORK...' : 'INITIATE EMERGENCY'}
+                {!user?.isVerified ? 'VERIFICATION PENDING' : (isRequesting ? 'SEARCHING NETWORK...' : 'INITIATE EMERGENCY')}
               </motion.button>
             </form>
           </div>
@@ -245,7 +251,8 @@ const HospitalDashboard = () => {
                                 </div>
                                 <button
                                   onClick={() => handleAcceptBank(req._id, resp.bloodBank._id || resp.bloodBank)}
-                                  className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[10px] font-black tracking-widest uppercase transition-colors shadow-xl shadow-blue-500/20"
+                                  disabled={!user?.isVerified}
+                                  className={`px-4 py-2 rounded-lg text-[10px] font-black tracking-widest uppercase transition-colors shadow-xl ${!user?.isVerified ? 'bg-white/10 text-light/20 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-500/20'}`}
                                 >
                                   ACCEPT
                                 </button>

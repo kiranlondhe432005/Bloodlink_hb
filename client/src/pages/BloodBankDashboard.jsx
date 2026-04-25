@@ -109,6 +109,12 @@ const BloodBankDashboard = () => {
       exit={{ opacity: 0, y: -20 }}
       className="max-w-7xl mx-auto space-y-8"
     >
+      {!user?.isVerified && (
+        <div className="bg-orange-500/10 border border-orange-500/30 p-4 rounded-xl text-center mb-6">
+          <h3 className="text-orange-400 font-bold mb-1 flex items-center justify-center"><AlertCircle size={18} className="mr-2" /> Pending Verification</h3>
+          <p className="text-sm text-light/70">Your account is pending verification by an Admin. Broadcast responses are restricted.</p>
+        </div>
+      )}
       <header className="glass-panel p-8 rounded-3xl shadow-2xl border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary via-primary to-secondary opacity-50" />
         <div className="relative z-10 text-center md:text-left">
@@ -190,10 +196,11 @@ const BloodBankDashboard = () => {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
+                        disabled={!user?.isVerified}
                         onClick={() => handleStockAvailable(req._id)}
-                        className="w-full py-4 bg-primary hover:bg-red-600 text-white rounded-2xl text-[10px] font-black tracking-[0.2em] transition-all shadow-xl shadow-primary/20"
+                        className={`w-full py-4 rounded-2xl text-[10px] font-black tracking-[0.2em] transition-all shadow-xl ${!user?.isVerified ? 'bg-white/10 text-light/20 cursor-not-allowed' : 'bg-primary hover:bg-red-600 text-white shadow-primary/20'}`}
                       >
-                        MARK STOCK AVAILABLE
+                        {!user?.isVerified ? 'VERIFICATION PENDING' : 'MARK STOCK AVAILABLE'}
                       </motion.button>
                     </motion.div>
                   );
@@ -231,12 +238,14 @@ const BloodBankDashboard = () => {
                     <div className="flex items-center gap-4 mt-4 bg-black/20 rounded-full px-2 py-1 border border-white/5">
                       <button 
                         onClick={() => updateStock(group, 'subtract')}
-                        className="w-8 h-8 rounded-full bg-white/5 hover:bg-red-500/20 hover:text-red-400 flex items-center justify-center text-white transition font-bold"
+                        disabled={!user?.isVerified}
+                        className={`w-8 h-8 rounded-full flex items-center justify-center text-white transition font-bold ${!user?.isVerified ? 'bg-white/5 opacity-50 cursor-not-allowed' : 'bg-white/5 hover:bg-red-500/20 hover:text-red-400'}`}
                       ><Minus size={14} /></button>
                       <span className="font-black w-6 text-center text-primary text-xl drop-shadow-[0_0_8px_rgba(255,59,59,0.3)]">{stock[group] !== undefined ? stock[group] : '-'}</span>
                       <button 
                         onClick={() => updateStock(group, 'add')}
-                        className="w-8 h-8 rounded-full bg-white/5 hover:bg-green-500/20 hover:text-green-400 flex items-center justify-center text-white transition font-bold"
+                        disabled={!user?.isVerified}
+                        className={`w-8 h-8 rounded-full flex items-center justify-center text-white transition font-bold ${!user?.isVerified ? 'bg-white/5 opacity-50 cursor-not-allowed' : 'bg-white/5 hover:bg-green-500/20 hover:text-green-400'}`}
                       ><Plus size={14} /></button>
                     </div>
                   </div>

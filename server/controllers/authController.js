@@ -67,10 +67,7 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
-      // Logic: block if not verified
-      if (!user.isVerified) {
-        return res.status(401).json({ message: 'Account not verified by Admin yet.' });
-      }
+      // Removed the logic that blocked them if not verified to allow front-end dashboard viewing.
 
       // Logic: block if suspended
       if (user.isActive === false) {

@@ -15,7 +15,7 @@ const seedAdmin = async () => {
     }
 
     await User.create({
-      role: 'Admin',
+      role: 'admin',
       name: 'System Admin',
       email: 'admin@bloodlink.com',
       password: 'admin123', // Will be hashed by pre-save hook
