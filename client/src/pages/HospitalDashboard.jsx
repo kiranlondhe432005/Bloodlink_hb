@@ -83,7 +83,7 @@ const HospitalDashboard = () => {
       toast.success('Blood bank locked! Resources will be deployed soon.');
       fetchRequests();
     } catch (err) {
-     toast.error(err.response?.data?.message || 'Failed to lock blood bank');
+      toast.error(err.response?.data?.message || 'Failed to lock blood bank');
     }
   };
 
@@ -310,7 +310,7 @@ const HospitalDashboard = () => {
                       const createT = new Date(req.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                       const acceptT = req.acceptedAt ? new Date(req.acceptedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A';
                       const deliverT = req.deliveredAt ? new Date(req.deliveredAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A';
-                      
+
                       const tStart = new Date(req.createdAt);
                       const tEnd = new Date(req.deliveredAt || req.updatedAt);
                       const diffMins = Math.max(0, Math.round((tEnd - tStart) / 60000));
@@ -318,34 +318,34 @@ const HospitalDashboard = () => {
                       const displayTime = hours > 0 ? `${hours}h ${diffMins % 60}m` : `${diffMins} mins`;
 
                       return (
-                      <tr key={req._id} className="hover:bg-white/5 transition group">
-                        <td className="px-6 py-6">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-success/10 rounded-xl flex items-center justify-center text-success font-black border border-success/20">
-                              {req.bloodGroup}
+                        <tr key={req._id} className="hover:bg-white/5 transition group">
+                          <td className="px-6 py-6">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 bg-success/10 rounded-xl flex items-center justify-center text-success font-black border border-success/20">
+                                {req.bloodGroup}
+                              </div>
+                              <span className="font-black text-light/90">{req.units} Units</span>
                             </div>
-                            <span className="font-black text-light/90">{req.units} Units</span>
-                          </div>
-                        </td>
-                        <td className="px-6 py-6 font-bold text-light/60 group-hover:text-light/90 transition-colors">
-                          {req.acceptedBy?.name || 'Unknown'}
-                        </td>
-                        <td className="px-6 py-6 text-[10px] font-bold text-light/50 tracking-widest space-y-1">
-                          <p><span className="text-light/20">REQ:</span> {createT}</p>
-                          <p><span className="text-light/20">ACC:</span> {acceptT}</p>
-                          <p><span className="text-success/80">DEL:</span> {deliverT}</p>
-                        </td>
-                        <td className="px-6 py-6">
-                          <span className="text-xs font-black text-light/40 flex items-center">
-                            <Clock size={12} className="mr-1 text-primary" /> {displayTime}
-                          </span>
-                        </td>
-                        <td className="px-6 py-6 text-right">
-                          <span className="text-success font-black text-[10px] tracking-widest uppercase flex items-center justify-end gap-2 drop-shadow-[0_0_10px_rgba(0,230,118,0.2)]">
-                            <CheckCircle size={14} /> Delivered
-                          </span>
-                        </td>
-                      </tr>
+                          </td>
+                          <td className="px-6 py-6 font-bold text-light/60 group-hover:text-light/90 transition-colors">
+                            {req.acceptedBy?.name || 'Unknown'}
+                          </td>
+                          <td className="px-6 py-6 text-[10px] font-bold text-light/50 tracking-widest space-y-1">
+                            <p><span className="text-light/20">REQ:</span> {createT}</p>
+                            <p><span className="text-light/20">ACC:</span> {acceptT}</p>
+                            <p><span className="text-success/80">DEL:</span> {deliverT}</p>
+                          </td>
+                          <td className="px-6 py-6">
+                            <span className="text-xs font-black text-light/40 flex items-center">
+                              <Clock size={12} className="mr-1 text-primary" /> {displayTime}
+                            </span>
+                          </td>
+                          <td className="px-6 py-6 text-right">
+                            <span className="text-success font-black text-[10px] tracking-widest uppercase flex items-center justify-end gap-2 drop-shadow-[0_0_10px_rgba(0,230,118,0.2)]">
+                              <CheckCircle size={14} /> Delivered
+                            </span>
+                          </td>
+                        </tr>
                       );
                     })}
                   </tbody>

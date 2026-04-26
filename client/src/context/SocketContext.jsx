@@ -11,7 +11,7 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     let newSocket;
     if (user && user._id && !socket) {
-      newSocket = io('http://localhost:5000');
+      newSocket = io(import.meta.env.VITE_API_URL);
 
       newSocket.on('connect', () => {
         newSocket.emit('join_room', user._id);

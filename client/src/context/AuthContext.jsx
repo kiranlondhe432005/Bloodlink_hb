@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -11,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   // ✅ stable axios instance
   const api = useMemo(() => {
     const instance = axios.create({
-      baseURL: 'http://localhost:5000/api',
+      baseURL: `${import.meta.env.VITE_API_URL}/api`,
     });
 
     instance.interceptors.request.use((config) => {

@@ -14,7 +14,7 @@ const BloodBankDashboard = () => {
   const [incoming, setIncoming] = useState([]);
   const [accepted, setAccepted] = useState([]);
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
-  
+
   const [stock, setStock] = useState({
     'A+': 0, 'A-': 0, 'B+': 0, 'B-': 0,
     'O+': 0, 'O-': 0, 'AB+': 0, 'AB-': 0
@@ -88,7 +88,7 @@ const BloodBankDashboard = () => {
   const updateStock = async (group, operation) => {
     const currentUnits = stock[group] || 0;
     const newUnits = operation === 'add' ? currentUnits + 1 : Math.max(0, currentUnits - 1);
-    
+
     setStock(prev => ({ ...prev, [group]: newUnits }));
 
     try {
@@ -194,7 +194,7 @@ const BloodBankDashboard = () => {
                       </div>
 
                       {(() => {
-                        const hasResponded = req.responses?.some(r => 
+                        const hasResponded = req.responses?.some(r =>
                           r.bloodBank === user._id || (r.bloodBank && r.bloodBank._id === user._id) || (r.bloodBank && r.bloodBank.toString() === user._id.toString())
                         );
 
@@ -240,7 +240,7 @@ const BloodBankDashboard = () => {
 
         {/* Right Column: Managed Sessions & Inventory */}
         <div className="lg:col-span-2 space-y-8">
-          
+
           <section>
             <h3 className="text-[10px] font-black text-light/30 uppercase tracking-[0.3em] mb-6 flex items-center ml-2">
               <Activity size={14} className="mr-2 text-primary" /> Live Blood Inventory
@@ -252,13 +252,13 @@ const BloodBankDashboard = () => {
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-600 to-red-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                     <span className="text-2xl font-black text-white">{group}</span>
                     <div className="flex items-center gap-4 mt-4 bg-black/20 rounded-full px-2 py-1 border border-white/5">
-                      <button 
+                      <button
                         onClick={() => updateStock(group, 'subtract')}
                         disabled={!user?.isVerified}
                         className={`w-8 h-8 rounded-full flex items-center justify-center text-white transition font-bold ${!user?.isVerified ? 'bg-white/5 opacity-50 cursor-not-allowed' : 'bg-white/5 hover:bg-red-500/20 hover:text-red-400'}`}
                       ><Minus size={14} /></button>
                       <span className="font-black w-6 text-center text-primary text-xl drop-shadow-[0_0_8px_rgba(255,59,59,0.3)]">{stock[group] !== undefined ? stock[group] : '-'}</span>
-                      <button 
+                      <button
                         onClick={() => updateStock(group, 'add')}
                         disabled={!user?.isVerified}
                         className={`w-8 h-8 rounded-full flex items-center justify-center text-white transition font-bold ${!user?.isVerified ? 'bg-white/5 opacity-50 cursor-not-allowed' : 'bg-white/5 hover:bg-green-500/20 hover:text-green-400'}`}
@@ -367,13 +367,13 @@ const BloodBankDashboard = () => {
                       const createT = new Date(req.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                       const acceptT = req.acceptedAt ? new Date(req.acceptedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A';
                       const deliverT = req.deliveredAt ? new Date(req.deliveredAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A';
-                      
+
                       const tStart = new Date(req.createdAt);
                       const tEnd = new Date(req.deliveredAt || req.updatedAt);
                       const diffMins = Math.max(0, Math.round((tEnd - tStart) / 60000));
                       const hours = Math.floor(diffMins / 60);
                       const displayTime = hours > 0 ? `${hours}h ${diffMins % 60}m` : `${diffMins} mins`;
-                      
+
                       return (
                         <tr key={req._id} className="hover:bg-white/5 transition group">
                           <td className="px-6 py-6">

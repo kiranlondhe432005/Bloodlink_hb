@@ -13,7 +13,7 @@ export const NotificationProvider = ({ children }) => {
   useEffect(() => {
     if (!user) return;
 
-    const newSocket = io('http://localhost:5000');
+    const newSocket = io(import.meta.env.VITE_API_URL);
     setSocket(newSocket);
 
     newSocket.emit('join_room', user._id);

@@ -8,7 +8,7 @@ import MapComponent from '../components/MapComponent';
 const AdminDashboard = () => {
   const { api, user } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState('overview'); // overview, hospitals, bloodbanks, requests, admins
-  
+
   const [stats, setStats] = useState({ totalHospitals: 0, totalBloodBanks: 0, activeRequests: 0 });
   const [pendingUsers, setPendingUsers] = useState([]);
   const [locationRequests, setLocationRequests] = useState([]);
@@ -16,7 +16,7 @@ const AdminDashboard = () => {
   const [bloodBanks, setBloodBanks] = useState([]);
   const [requestsHistory, setRequestsHistory] = useState([]);
   const [admins, setAdmins] = useState([]);
-  
+
   const [showAddAdmin, setShowAddAdmin] = useState(false);
   const [newAdmin, setNewAdmin] = useState({ name: '', email: '', password: '' });
 
@@ -45,7 +45,7 @@ const AdminDashboard = () => {
       setHospitals(results[3].data);
       setBloodBanks(results[4].data);
       setRequestsHistory(results[5].data);
-      
+
       if (user?.isSuperAdmin) setAdmins(results[6].data);
 
     } catch (err) {
@@ -109,12 +109,12 @@ const AdminDashboard = () => {
   };
 
   const handleRemoveAdmin = async (id) => {
-    if(!window.confirm('Are you sure you want to remove this admin?')) return;
+    if (!window.confirm('Are you sure you want to remove this admin?')) return;
     try {
       await api.delete(`/admin/remove-admin/${id}`);
       toast.success('Admin removed successfully');
       fetchData();
-    } catch(err) {
+    } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to remove admin');
     }
   };
@@ -144,8 +144,8 @@ const AdminDashboard = () => {
                 </span>
               </td>
               <td className="p-4 text-right flex justify-end gap-3 items-center">
-                <button 
-                  onClick={() => toggleAccess(u._id)} 
+                <button
+                  onClick={() => toggleAccess(u._id)}
                   className={`px-3 py-1.5 rounded text-[10px] uppercase tracking-widest font-black transition-colors ${u.isActive !== false ? 'bg-red-500/20 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/30' : 'bg-green-500/20 hover:bg-green-500 text-green-500 hover:text-white border border-green-500/30'}`}
                 >
                   {u.isActive !== false ? 'Stop Access' : 'Enable Access'}
@@ -265,11 +265,10 @@ const AdminDashboard = () => {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-6 py-3 rounded-t-xl font-bold transition-all ${
-              activeTab === tab.id 
-              ? 'bg-white/10 text-white border-b-2 border-primary' 
-              : 'text-white/50 hover:text-white hover:bg-white/5'
-            }`}
+            className={`flex items-center gap-2 px-6 py-3 rounded-t-xl font-bold transition-all ${activeTab === tab.id
+                ? 'bg-white/10 text-white border-b-2 border-primary'
+                : 'text-white/50 hover:text-white hover:bg-white/5'
+              }`}
           >
             <tab.icon size={18} />
             {tab.label}
@@ -325,7 +324,7 @@ const AdminDashboard = () => {
                     <div key={user._id} className="flex flex-col sm:flex-row justify-between sm:items-center bg-white/5 p-4 rounded-xl gap-4">
                       <div>
                         <p className="font-bold flex items-center">
-                          {user.name} 
+                          {user.name}
                           <span className="ml-2 bg-white/10 text-white/70 text-[10px] uppercase px-2 py-0.5 rounded tracking-widest">{user.role}</span>
                         </p>
                         <p className="text-sm text-gray-400 mb-1">{user.email}</p>
